@@ -46,7 +46,7 @@ The documentation includes:
 
 👉 **Click here to view:**  
 
-[Secure AWS Content Delivery Platform Documentation](./Secure_AWS_Content_Delivery_Platform.pdf)
+[Secure AWS Content Delivery Platform Documentation](./Secure_AWS_Content_Delivery_Platform.pptx)
 
 ---
 
