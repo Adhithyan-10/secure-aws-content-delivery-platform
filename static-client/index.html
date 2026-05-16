@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Secure AWS Content Delivery Demo</title>
+</head>
+
+<body>
+
+    <h2>🚀 Secure AWS Content Delivery Platform</h2>
+
+    <button onclick="login()">Login with Cognito</button>
+
+    <br><br>
+
+    <button onclick="callSecureAPI()">
+        Call Secure API
+    </button>
+
+    <br><br>
+
+    <button onclick="getVideo()">
+        Get Secure Video
+    </button>
+
+<script>
+
+const clientId="YOUR_CLIENT_ID"
+
+const redirectUri="http://localhost:5500"
+
+const domain=
+"YOUR_DOMAIN.auth.ap-south-1.amazoncognito.com"
+
+
+const tokenAPI=
+"YOUR_TOKEN_API_ENDPOINT"
+
+const secureAPI=
+"YOUR_SECURE_API_ENDPOINT"
+
+const videoAPI=
+"YOUR_GET_URL_ENDPOINT"
+
+
+function login(){
+
+window.location=
+`https://${domain}/login?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`
+
+}
+
+
+const params=
+new URLSearchParams(window.location.search)
+
+const code=
+params.get("code")
+
+
+if(code){
+
+fetch(`${tokenAPI}?code=${code}`)
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let result=
+JSON.parse(data.body)
+
+localStorage.setItem(
+"token",
+result.id_token
+)
+
+alert(
+"JWT Token received successfully"
+)
+
+})
+
+.catch(error=>{
+
+console.log(error)
+
+})
+
+}
+
+
+function callSecureAPI(){
+
+let token=
+localStorage.getItem("token")
+
+
+fetch(secureAPI,{
+
+headers:{
+
+Authorization:token
+
+}
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+alert(
+JSON.stringify(data)
+)
+
+})
+
+.catch(error=>{
+
+console.log(error)
+
+})
+
+}
+
+
+function getVideo(){
+
+let token=
+localStorage.getItem("token")
+
+
+fetch(videoAPI,{
+
+headers:{
+
+Authorization:token
+
+}
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let result=
+JSON.parse(data.body)
+
+window.open(
+result.url
+)
+
+})
+
+.catch(error=>{
+
+console.log(error)
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
